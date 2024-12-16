@@ -19,18 +19,12 @@ async function start({ container }: QiankunProps = {}) {
 }
 
 renderWithQiankun({
-  bootstrap() {
-    console.log(`[${appName}] bootstrap`)
-  },
+  bootstrap() {},
   mount(props) {
-    console.log(`[${appName}] mount`, props)
     start(props)
   },
-  update(props) {
-    console.log(`[${appName}] update`, props)
-  },
+  update() {},
   unmount() {
-    console.log(`[${appName}] unmount`)
     app.unmount()
   },
 })
