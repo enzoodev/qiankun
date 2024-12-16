@@ -1,16 +1,11 @@
 <template>
   <img alt="Vue logo" src="../assets/logo.png" />
-  <HelloWorld msg="Vue.js Demo" @close="close"> </HelloWorld>
+        <router-link to="/about">About</router-link>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue';
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
-  },
   created() {
     console.log('vue2.0写法 created');
   },
