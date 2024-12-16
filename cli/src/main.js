@@ -10,7 +10,7 @@ let history = null;
 
 function render(props = {}) {
   const { container } = props;
-  history = createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/vue3' : '/');
+  history = createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/patrimonio' : '/');
   router = createRouter({
     history,
     routes,
@@ -26,7 +26,7 @@ if (!window.__POWERED_BY_QIANKUN__) {
 }
 
 export async function bootstrap() {
-  console.log('%c%s', 'color: green;', 'vue3.0 app bootstraped');
+  console.log('%c%s', 'color: green;', 'patrimonio.0 app bootstraped');
 }
 
 export async function mount(props) {

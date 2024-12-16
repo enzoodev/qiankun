@@ -1,58 +1,40 @@
-import { createApp } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
-import App from './App.vue';
-import './public-path';
-import routes from './router';
+import { QiankunProps, qiankunWindow, renderWithQiankun } from 'vite-plugin-qiankun/dist/helper';
+import { createApp, type App } from 'vue';
+import Root from './App.vue';
+import { router } from './router';
+import "./style.css";
 
-let router: any = null;
-let instance: any = null;
-let history: any = null;
+const appName = 'patrimonio'
 
-function render(props: any = {}) {
-  const { container } = props;
-  history = createWebHistory(
-    window.__POWERED_BY_QIANKUN__ ? '/vue3' : '/'
-  );
-  
-  router = createRouter({
-    history,
-    routes,
-  });
+let app: App;
 
-  instance = createApp(App);
-  instance.use(router);
-  instance.mount(
-    container ? container.querySelector('#app') : '#app'
-  );
+async function start({ container }: QiankunProps = {}) {
+  app = createApp(Root)
+  app.use(router)
+  app.mount(
+    container
+      ? container.querySelector(`#${appName}-app`)
+      : document.querySelector(`#${appName}-app`)
+  )
 }
 
-// Standalone mode
-if (!window.__POWERED_BY_QIANKUN__) {
-  render();
-}
+renderWithQiankun({
+  bootstrap() {
+    console.log(`[${appName}] bootstrap`)
+  },
+  mount(props) {
+    console.log(`[${appName}] mount`, props)
+    start(props)
+  },
+  update(props) {
+    console.log(`[${appName}] update`, props)
+  },
+  unmount() {
+    console.log(`[${appName}] unmount`)
+    app.unmount()
+  },
+})
 
-export async function bootstrap() {
-  console.log('%c%s', 'color: green;', 'vue3.0 app bootstraped');
+if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
+  start()
 }
-
-export async function mount(props: any) {
-  render(props);
-}
-
-export async function unmount() {
-  if (instance) {
-    instance.unmount();
-    if (instance._container) {
-      instance._container.innerHTML = '';
-    }
-    instance = null;
-    router = null;
-    history?.destroy();
-  }
-}
-
-export default {
-  bootstrap,
-  mount,
-  unmount,
-};
