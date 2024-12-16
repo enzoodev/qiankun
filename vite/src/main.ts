@@ -1,21 +1,23 @@
 import { QiankunProps, qiankunWindow, renderWithQiankun } from 'vite-plugin-qiankun/dist/helper';
-import { createApp, type App } from 'vue';
-import Root from './App.vue';
+import { createApp, type App as TApp } from 'vue';
+import App from './App.vue';
 import { router } from './router';
 import "./style.css";
 
-const appName = 'patrimonio'
-
-let app: App;
+let app: TApp<Element>;
 
 async function start({ container }: QiankunProps = {}) {
-  app = createApp(Root)
+  app = createApp(App)
   app.use(router)
-  app.mount(
-    container
-      ? container.querySelector(`#${appName}-app`)
-      : document.querySelector(`#${appName}-app`)
-  )
+
+  const selector = '#app'
+  const rootContainer = container
+    ? container.querySelector(selector)
+    : document.querySelector(selector)
+  
+  if (rootContainer) {
+    app.mount(rootContainer)
+  }
 }
 
 renderWithQiankun({
