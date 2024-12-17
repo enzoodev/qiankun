@@ -1,14 +1,18 @@
+import { Quasar } from 'quasar';
 import { QiankunProps, qiankunWindow, renderWithQiankun } from 'vite-plugin-qiankun/dist/helper';
 import { createApp, type App as TApp } from 'vue';
 import App from './App.vue';
+import { i18n } from "./lib/plugins/i18n";
+import { quasarOptions } from './lib/plugins/quasar';
 import { router } from './router';
-import "./style.css";
 
 let app: TApp<Element>;
 
 async function start({ container }: QiankunProps = {}) {
   app = createApp(App)
   app.use(router)
+  app.use(Quasar, quasarOptions)
+  app.use(i18n)
 
   const selector = '#app'
   const rootContainer = container
